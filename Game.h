@@ -3,8 +3,6 @@
 
 #include <vector>
 #include "SDL.h"
-//#include "SDL_video.h"
-//#include "SDL_keysym.h"
 
 class Game {
 

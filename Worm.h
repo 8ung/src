@@ -8,7 +8,7 @@ private:
 	Uint32 colour;
 	int left_control;
 	int right_control;
-	Position_class position;
+	Position_class* position;
 	int direction;
 public:
 	double speed = 0.1;
@@ -18,7 +18,7 @@ public:
 	bool powerup_through_wall = false;
 	bool powerup_ghost = false;
 
-	Worm(Uint32 colour, char left_control, char right_control);
+	Worm(Uint32 colour, int left_control, int right_control);
 
 private:
 	int random_distance_to_hole();
@@ -28,7 +28,7 @@ public:
 
 	void kill_worm();
 
-	Position_class get_position();
+	//Position_class get_position();
 
 	Uint32 get_colour();
 

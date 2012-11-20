@@ -1,18 +1,20 @@
 #include <vector>
+#include "Worm.h"
 
 
 class Playground {
 
 private:
-	Position_class upper_left_corner;
-	Position_class bottom_right_corner;
-	int turn_ratio = 2;
+	/*Position_class upper_left_corner;
+	Position_class bottom_right_corner;*/
+	int turn_ratio;
 public:
 	std::vector<int> powerup_vector;
 	std::vector<Worm> worm_vector;
 	std::vector<Worm> survivor_vector;
 
 	Playground();
+	//~Playground();
 
 private:
 	void random_worm_values();

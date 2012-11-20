@@ -1,14 +1,15 @@
 #include "Playground.h"
 
-/*Playground::Playground() {
-	throw "Not yet implemented";
-}*/
+Playground::Playground() {
+	turn_ratio = 2;
+}
 
 void Playground::random_worm_values() {
-	for(int i = 0; i < worm_vector.size(); i++)
+	int worm_vector_size  = worm_vector.size();
+	for(int i = 0; i < worm_vector_size; i++)
 	{
 		worm_vector[i].random_position();
-		int angle = rand % 360;
+		int angle = rand() % 360;
 		worm_vector[i].change_direction(angle);
 	}
 }
@@ -30,9 +31,11 @@ bool Playground::round_finished() {
 }
 
 void Playground::update(std::vector<int> pressed_keys) {
-	for(int i = 0; i < survivor_vector.size(); i++)
+	int survivor_vector_size =  survivor_vector.size();
+	for(int i = 0; i < survivor_vector_size; i++)
 	{
-		for(int j = 0; j < pressed_keys.size(); j++)
+		int pressed_keys_size = pressed_keys.size();
+		for(int j = 0; j < pressed_keys_size; j++)
 		{
 			if(pressed_keys[j] == survivor_vector[i].get_left_control())
 			{
@@ -48,7 +51,8 @@ void Playground::update(std::vector<int> pressed_keys) {
 
 void Playground::initialize(Uint32 colour,
 		unsigned int left_control,
-		unsigned int right_control) {
-	Worm temp_worm = new Worm(colour, left_control, right_control);
-	worm_vector.push_back(temp_worm);
+		unsigned int right_control)
+{
+	Worm* temp_worm = new Worm(colour, left_control, right_control);
+	worm_vector.push_back(*temp_worm);
 }

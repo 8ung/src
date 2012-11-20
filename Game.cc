@@ -59,31 +59,34 @@ void fpsChanged( int fps ) {
 
 void Game::run() {
 	int past = SDL_GetTicks();
-		int now = past, pastFps = past ;
-		int fps = 0, framesSkipped = 0 ;
-		//SDL_Event event ;
-		while ( running ) {
-			int timeElapsed = 0 ;
+	int now = past, pastFps = past ;
+	int fps = 0, framesSkipped = 0 ;
+	//SDL_Event event ;
+	while ( running ) {
+		int timeElapsed = 0 ;
+
+		/* Menu */
 
 
-			/* update/draw */
-			timeElapsed = (now=SDL_GetTicks()) - past ;
-			if ( timeElapsed >= 1000/60  ) {
-				past = now ;
-				//update();
-				if ( framesSkipped++ >= frameSkip ) {
-					//draw();
-					++fps ;
-					framesSkipped = 0 ;
-				}
+
+		/* update/draw */
+		timeElapsed = (now=SDL_GetTicks()) - past ;
+		if ( timeElapsed >= 1000/60  ) {
+			past = now ;
+			//update();
+			if ( framesSkipped++ >= frameSkip ) {
+				//draw();
+				++fps ;
+				framesSkipped = 0 ;
 			}
-			/* fps */
-			if ( now - pastFps >= 1000 ) {
-				pastFps = now ;
-				fpsChanged( fps );
-				fps = 0 ;
-			}
-			/* sleep? */
-			SDL_Delay( 1 );
 		}
+		/* fps */
+		if ( now - pastFps >= 1000 ) {
+			pastFps = now ;
+			fpsChanged( fps );
+			fps = 0 ;
+		}
+		/* sleep? */
+		SDL_Delay( 1 );
+	}
 }
