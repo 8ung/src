@@ -1,18 +1,28 @@
-#include <stdio.h>
 #include "Game.h"
+#include "Playground.h"
 #include "SDL.h"
 #include <iostream>
 #include <time.h>
 
+using namespace std;
+
 Game::Game() {
+	frameSkip = 0;
+	running = 0;
+	display = NULL;
+	for ( int i=0; i<SDLK_LAST; ++i ) {
+		this->keys[ i ] = 0 ;
+	}
 	initialize();
 	Playground* playground = new Playground();
+	Uint32 bg_colour = 0x00000001;
+	playground->initialize(bg_colour, 132,164);
 	//skapa objekt av Menu och Scoreboard här också
-	//throw "Not yet implemented";
 }
 
 void Game::initialize()
 {
+
 	int flags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_ANYFORMAT ;
 
 	/* initialize SDL */
@@ -34,8 +44,17 @@ void Game::initialize()
 	//throw "Not yet implemented";
 }
 
-void Game::listen_to_keys() {
-	throw "Not yet implemented";
+void Game::listen_to_keys()
+{
+	if (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:    quit();            break;
+		case SDL_KEYDOWN: key_pressed( &event ); break;
+		case SDL_KEYUP:   key_unpressed( &event );   break;
+		}
+	}
 }
 
 void Game::draw_playground() {
@@ -61,14 +80,26 @@ void fpsChanged( int fps ) {
 }
 
 
-void onKeyDown( SDL_Event* event )
+void Game::key_pressed( SDL_Event* event )
 {
-
+	keys[ event->key.keysym.sym ] = 1;
 }
 
-void onKeyUp( SDL_Event* event )
+void Game::key_unpressed( SDL_Event* event )
 {
+	keys[ event->key.keysym.sym ] = 0;
+}
 
+void Game::quit()
+{
+	running = 0;
+}
+
+void Game::fpsChanged( int fps ) {
+	char szFps[ 128 ] ;
+
+	sprintf( szFps, "%s: %d FPS", "SDL Base C++ - Use Arrow Keys to Move", fps );
+	SDL_WM_SetCaption( szFps, NULL );
 }
 
 void Game::run() {
@@ -76,30 +107,34 @@ void Game::run() {
 	int now = past, pastFps = past ;
 	int fps = 0, framesSkipped = 0 ;
 	srand(time(NULL));
-	Uint32 bg_colour = 0x00000001;
 
 	//SDL_Event event ;
-	while ( running ) {
+	while ( running )
+	{
 		int timeElapsed = 0 ;
+
+		listen_to_keys();
+		playground->update(keys[SDLK_LAST]);
 
 		/* Menu */
 
-		playground->initialize(bg_colour, 132,164);
-
-
 		/* update/draw */
 		timeElapsed = (now=SDL_GetTicks()) - past ;
-		if ( timeElapsed >= 1000/60  ) {
+		if ( timeElapsed >= 1000/60  )
+		{
 			past = now ;
 			//update();
-			if ( framesSkipped++ >= frameSkip ) {
-				//draw();
+			if ( framesSkipped++ >= frameSkip )
+			{
+				SDL_Flip( display );
 				++fps ;
 				framesSkipped = 0 ;
 			}
 		}
+
 		/* fps */
-		if ( now - pastFps >= 1000 ) {
+		if ( now - pastFps >= 1000 )
+		{
 			pastFps = now ;
 			fpsChanged( fps );
 			fps = 0 ;

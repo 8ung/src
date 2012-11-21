@@ -33,7 +33,8 @@ bool Playground::round_finished() {
 	return false;
 }
 
-void Playground::update(std::vector<int> pressed_keys) {
+void Playground::update(int keys)
+{
 	int survivor_vector_size =  survivor_vector.size();
 	for(int i = 0; i < survivor_vector_size; i++)
 	{

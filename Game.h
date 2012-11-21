@@ -16,6 +16,8 @@ private:
 	int running;
 	SDL_Surface* display;
 	Playground* playground;
+	SDL_Event event;
+
 
 
 public:
@@ -34,9 +36,13 @@ private:
 
 	bool game_finished();
 
-	void onKeyDown( SDL_Event* event );
+	void key_pressed( SDL_Event* event );
 
-	void onKeyUp( SDL_Event* event );
+	void key_unpressed( SDL_Event* event );
+
+	void quit();
+
+	void fpsChanged(int);
 
 public:
 	void run();

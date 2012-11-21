@@ -34,7 +34,7 @@ private:
 public:
 
 	void random_worm_values();
-	void update(std::vector<int> pressed_keys);
+	void update(int);
 
 	void initialize(Uint32 colour, unsigned int left_control, unsigned int right_control);
 };
