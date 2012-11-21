@@ -2,9 +2,12 @@
 #include "Game.h"
 #include "SDL.h"
 #include <iostream>
+#include <time.h>
 
 Game::Game() {
 	initialize();
+	Playground* playground = new Playground();
+	//skapa objekt av Menu och Scoreboard här också
 	//throw "Not yet implemented";
 }
 
@@ -57,16 +60,31 @@ void fpsChanged( int fps ) {
 	SDL_WM_SetCaption( szFps, NULL );
 }
 
+
+void onKeyDown( SDL_Event* event )
+{
+
+}
+
+void onKeyUp( SDL_Event* event )
+{
+
+}
+
 void Game::run() {
 	int past = SDL_GetTicks();
 	int now = past, pastFps = past ;
 	int fps = 0, framesSkipped = 0 ;
+	srand(time(NULL));
+	Uint32 bg_colour = 0x00000001;
+
 	//SDL_Event event ;
 	while ( running ) {
 		int timeElapsed = 0 ;
 
 		/* Menu */
 
+		playground->initialize(bg_colour, 132,164);
 
 
 		/* update/draw */

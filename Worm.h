@@ -1,22 +1,34 @@
+#ifndef WORM_H
+#define WORM_H
+
 #include "Position_class.h"
 #include "SDL_stdinc.h"
 
 class Worm {
 
 private:
+	enum{
+		default_speed = 1,
+		default_thickness = 8,
+		default_powerup_timer = 0
+	};
+
 	int distance_to_hole;
 	Uint32 colour;
 	int left_control;
 	int right_control;
 	Position_class* position;
-	int direction;
+	//int direction;
 public:
-	double speed = 0.1;
-	double thickness = 8;
-	int powerup_timer = 0;
+	int direction;
+	double speed = default_speed;
+	double thickness = default_thickness;
+	int powerup_timer = default_powerup_timer;
 	int score = 0;
 	bool powerup_through_wall = false;
 	bool powerup_ghost = false;
+	bool powerup_sharp_turn = false;
+	bool powerup_mirror = false;
 
 	Worm(Uint32 colour, int left_control, int right_control);
 
@@ -28,7 +40,7 @@ public:
 
 	void kill_worm();
 
-	//Position_class get_position();
+	Position_class* get_position();
 
 	Uint32 get_colour();
 
@@ -42,3 +54,5 @@ public:
 
 	void random_position();
 };
+
+#endif /* WORM_H */

@@ -1,7 +1,9 @@
 #include "Playground.h"
+#include <time.h>
 
 Playground::Playground() {
-	turn_ratio = 2;
+	upper_left_corner = new Position_class(10, 10);
+	bottom_right_corner = new Position_class(540,540);
 }
 
 void Playground::random_worm_values() {
@@ -9,6 +11,7 @@ void Playground::random_worm_values() {
 	for(int i = 0; i < worm_vector_size; i++)
 	{
 		worm_vector[i].random_position();
+		//srand(time(NULL));
 		int angle = rand() % 360;
 		worm_vector[i].change_direction(angle);
 	}
@@ -23,7 +26,7 @@ void Playground::collision() {
 }
 
 bool Playground::round_finished() {
-	if(survivor_vector.size() == 1)
+	if(survivor_vector.size() <= 1)
 	{
 		return true;
 	}
@@ -39,11 +42,25 @@ void Playground::update(std::vector<int> pressed_keys) {
 		{
 			if(pressed_keys[j] == survivor_vector[i].get_left_control())
 			{
-				survivor_vector[i].change_direction(turn_ratio);
+				if(survivor_vector[i].powerup_sharp_turn == true)
+				{
+					survivor_vector[i].change_direction(sharp_turn);
+				}
+				else
+				{
+					survivor_vector[i].change_direction(turn_ratio);
+				}
 			}
 			else if(pressed_keys[j] == survivor_vector[i].get_right_control())
 			{
-				survivor_vector[i].change_direction(-turn_ratio);
+				if(survivor_vector[i].powerup_sharp_turn == true)
+				{
+					survivor_vector[i].change_direction(-sharp_turn);
+				}
+				else
+				{
+					survivor_vector[i].change_direction(-turn_ratio);
+				}
 			}
 		}
 	}
