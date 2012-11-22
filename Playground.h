@@ -10,10 +10,8 @@ class Playground {
 private:
 	Position_class* upper_left_corner;
 	Position_class* bottom_right_corner;
-	enum{
-		turn_ratio = 2,
-		sharp_turn = 90
-	};
+	const double turn_ratio = 0.2;
+	const double sharp_turn = 90;
 public:
 	std::vector<int> powerup_vector;
 	std::vector<Worm> worm_vector;
@@ -34,7 +32,7 @@ private:
 public:
 
 	void random_worm_values();
-	void update(int);
+	void update(int,bool,bool);
 
 	void initialize(Uint32 colour, unsigned int left_control, unsigned int right_control);
 };

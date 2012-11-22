@@ -13,10 +13,12 @@ Game::Game() {
 	for ( int i=0; i<SDLK_LAST; ++i ) {
 		this->keys[ i ] = 0 ;
 	}
-	initialize();
-	Playground* playground = new Playground();
+	playground = new Playground();
 	Uint32 bg_colour = 0x00000001;
-	playground->initialize(bg_colour, 132,164);
+	playground->initialize(bg_colour, 276,275);
+	playground->initialize(bg_colour, 276,275);
+	playground->initialize(bg_colour, 276,275);
+	initialize();
 	//skapa objekt av Menu och Scoreboard här också
 }
 
@@ -31,7 +33,7 @@ void Game::initialize()
 	}
 
 	/* set video surface */
-	this->display = SDL_SetVideoMode(400, 400, 0, flags );//| SDL_FULLSCREEN);
+	this->display = SDL_SetVideoMode(1000, 600, 0, flags );//| SDL_FULLSCREEN);
 	if ( display == NULL ) {
 		return ;
 	}
@@ -41,7 +43,6 @@ void Game::initialize()
 
 	this->running = 1 ;
 	run();
-	//throw "Not yet implemented";
 }
 
 void Game::listen_to_keys()
@@ -57,8 +58,22 @@ void Game::listen_to_keys()
 	}
 }
 
+void Game::draw_rectangle( SDL_Surface* surface, SDL_Rect* rc, int r, int g, int b ) {
+	SDL_FillRect( surface, rc, SDL_MapRGB(surface->format, r, g, b) );
+}
+
 void Game::draw_playground() {
-	throw "Not yet implemented";
+	int survivor_vector_size = playground->survivor_vector.size();
+	for(int worm_index = 0; worm_index < survivor_vector_size; worm_index++)
+	{
+		/* Create visible worm */
+		worm_rect.x = playground->survivor_vector[worm_index].get_position()->x_koord;
+		worm_rect.y = playground->survivor_vector[worm_index].get_position()->y_koord;
+		worm_rect.w = 2 ;
+		worm_rect.h = 2 ;
+		draw_rectangle( display, &worm_rect, 100, 100, 100 );
+	}
+	SDL_Flip( display );
 }
 
 void Game::draw_menu() {
@@ -71,12 +86,6 @@ void Game::draw_scoreboard() {
 
 bool Game::game_finished() {
 	throw "Not yet implemented";
-}
-void fpsChanged( int fps ) {
-	char szFps[ 128 ] ;
-
-	sprintf( szFps, "%s: %d FPS", "Achtung, die Kurve!", fps );
-	SDL_WM_SetCaption( szFps, NULL );
 }
 
 
@@ -98,7 +107,7 @@ void Game::quit()
 void Game::fpsChanged( int fps ) {
 	char szFps[ 128 ] ;
 
-	sprintf( szFps, "%s: %d FPS", "SDL Base C++ - Use Arrow Keys to Move", fps );
+	sprintf( szFps, "%s: %d FPS", "SDL Base C++ - Use Arrow Keys to Move", fps);
 	SDL_WM_SetCaption( szFps, NULL );
 }
 
@@ -114,7 +123,23 @@ void Game::run() {
 		int timeElapsed = 0 ;
 
 		listen_to_keys();
-		playground->update(keys[SDLK_LAST]);
+		++fps;
+		int survivor_vector_size = playground->survivor_vector.size();
+		for(int i = 0; i < survivor_vector_size; i++)
+		{
+			if(keys[playground->survivor_vector[i].get_left_control()] == 1)
+			{
+				playground->update(i,true,false);
+			}
+			else if(keys[playground->survivor_vector[i].get_right_control()] == 1)
+			{
+				playground->update(i,false,true);
+			}
+			else
+			{
+				playground->update(i,false,false);
+			}
+		}
 
 		/* Menu */
 
@@ -126,8 +151,8 @@ void Game::run() {
 			//update();
 			if ( framesSkipped++ >= frameSkip )
 			{
-				SDL_Flip( display );
-				++fps ;
+				draw_playground();
+				//++fps ;
 				framesSkipped = 0 ;
 			}
 		}
@@ -136,7 +161,7 @@ void Game::run() {
 		if ( now - pastFps >= 1000 )
 		{
 			pastFps = now ;
-			fpsChanged( fps );
+			this->fpsChanged( playground->survivor_vector[1].direction );
 			fps = 0 ;
 		}
 		/* sleep? */

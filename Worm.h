@@ -8,11 +8,11 @@ class Worm {
 
 private:
 	enum{
-		default_speed = 1,
 		default_thickness = 8,
 		default_powerup_timer = 0
 	};
 
+	const double default_speed = 0.1;
 	int distance_to_hole;
 	Uint32 colour;
 	int left_control;
@@ -20,7 +20,7 @@ private:
 	Position_class* position;
 	//int direction;
 public:
-	int direction;
+	double direction;
 	double speed = default_speed;
 	double thickness = default_thickness;
 	int powerup_timer = default_powerup_timer;
@@ -36,7 +36,7 @@ private:
 	int random_distance_to_hole();
 
 public:
-	void change_direction(int degrees);
+	void change_direction(double degrees);
 
 	void kill_worm();
 

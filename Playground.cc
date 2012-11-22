@@ -1,5 +1,6 @@
 #include "Playground.h"
 #include <time.h>
+#include "SDL.h"
 
 Playground::Playground() {
 	upper_left_corner = new Position_class(10, 10);
@@ -33,37 +34,30 @@ bool Playground::round_finished() {
 	return false;
 }
 
-void Playground::update(int keys)
+void Playground::update(int worm_index, bool left_bool, bool right_bool)
 {
-	int survivor_vector_size =  survivor_vector.size();
-	for(int i = 0; i < survivor_vector_size; i++)
+	double degrees = 0;
+	if(survivor_vector[worm_index].powerup_sharp_turn == true)
 	{
-		int pressed_keys_size = pressed_keys.size();
-		for(int j = 0; j < pressed_keys_size; j++)
-		{
-			if(pressed_keys[j] == survivor_vector[i].get_left_control())
-			{
-				if(survivor_vector[i].powerup_sharp_turn == true)
-				{
-					survivor_vector[i].change_direction(sharp_turn);
-				}
-				else
-				{
-					survivor_vector[i].change_direction(turn_ratio);
-				}
-			}
-			else if(pressed_keys[j] == survivor_vector[i].get_right_control())
-			{
-				if(survivor_vector[i].powerup_sharp_turn == true)
-				{
-					survivor_vector[i].change_direction(-sharp_turn);
-				}
-				else
-				{
-					survivor_vector[i].change_direction(-turn_ratio);
-				}
-			}
-		}
+		degrees = sharp_turn;
+	}
+	else
+	{
+		degrees = turn_ratio;
+	}
+	if(left_bool)
+	{
+		survivor_vector[worm_index].change_direction(degrees);
+		survivor_vector[worm_index].move();
+	}
+	else if(right_bool)
+	{
+		survivor_vector[worm_index].change_direction(-degrees);
+		survivor_vector[worm_index].move();
+	}
+	else
+	{
+		survivor_vector[worm_index].move();
 	}
 }
 
@@ -73,4 +67,5 @@ void Playground::initialize(Uint32 colour,
 {
 	Worm* temp_worm = new Worm(colour, left_control, right_control);
 	worm_vector.push_back(*temp_worm);
+	survivor_vector.push_back(*temp_worm);
 }

@@ -17,7 +17,7 @@ private:
 	SDL_Surface* display;
 	Playground* playground;
 	SDL_Event event;
-
+	SDL_Rect worm_rect;
 
 
 public:
@@ -27,6 +27,8 @@ private:
 	void initialize();
 
 	void listen_to_keys();
+
+	void draw_rectangle(SDL_Surface*, SDL_Rect*, int, int, int);
 
 	void draw_playground();
 

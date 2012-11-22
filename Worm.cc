@@ -23,9 +23,18 @@ void Worm::random_position()
 	position->random_position();
 }
 
-void Worm::change_direction(int degrees)
+void Worm::change_direction(double degrees)
 {
-	direction = (direction + degrees) % 360;
+	direction = direction + degrees;
+	if(direction > 360)
+	{
+		direction = direction - 360;
+	}
+	else if(direction < 0)
+	{
+		direction = direction + 360;
+	}
+	//direction = (direction + degrees) % 360;
 }
 
 void Worm::kill_worm() {
