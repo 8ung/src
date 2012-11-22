@@ -12,13 +12,25 @@ private:
 	Position_class first_position;
 	bool team_play;
 	bool start_menu;
-	int spacing;
-	int position;
+	int spacing = 100;
+	int position = 1;
+	//SDL_Surface* background_image = 0;
+	enum
+	{
+		red = 16711680,
+		yellow = 16776960,
+		orange = 16753920,
+		green = 65280,
+		cyan = 65535,
+		blue = 255
+	};
 
 public:
-	Menu(bool team_play, bool start_menu);
+	Menu(bool start_menu_param, bool team_play_param);
 
-	uint32 execute();
+	void execute_start_menu();
+
+	Uint32 execute_select_worm_menu();
 
 	void move_up();
 
