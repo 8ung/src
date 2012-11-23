@@ -1,17 +1,25 @@
+#ifndef SCOREBOARD_H
+#define SCOREBOARD_H
+
 class Scoreboard {
 
 private:
-	Position_class position_first_row;
+	Position_class* position_first_row;
 	int spacing;
 	int min_points;
 	int players;
 
 public:
-	Scoreboard(vector& worm_vector);
+	Scoreboard(std::vector<Worm> &worm_vector);
 
-private:
-	bool game_finished();
+	void update(std::vector<Worm> &survivor_vector);
 
-public:
-	void update(vector& survivor_vector);
+	void update_team_play(std::vector<Worm> &survivor_vector, std::vector<Worm> &Worm_vector);
+
+	std::string Scoreboard::game_finished_team_play(std::vector<Worm> &Worm_vector);
+
+	int game_finished(std::vector<Worm> &Worm_vector);
 };
+
+
+#endif /* SCOREBOARD_H */
