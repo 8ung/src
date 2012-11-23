@@ -34,7 +34,6 @@ void Worm::change_direction(double degrees)
 	{
 		direction = direction + 360;
 	}
-	//direction = (direction + degrees) % 360;
 }
 
 void Worm::kill_worm() {

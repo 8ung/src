@@ -13,8 +13,8 @@ private:
 	};
 
 public:
-	float x_koord;
-	float y_koord;
+	double x_koord;
+	double y_koord;
 
 	Position_class(int x = 0, int y = 0);
 	//~Position_class();

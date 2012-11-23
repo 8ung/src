@@ -8,6 +8,7 @@
 class Game {
 
 private:
+	bool teamplay;
 	Uint32 input_colour;
 	int input_left_controler;
 	int input_right_controler;
@@ -17,7 +18,6 @@ private:
 	SDL_Surface* display;
 	Playground* playground;
 	SDL_Event event;
-	SDL_Rect worm_rect;
 
 
 public:

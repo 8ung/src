@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include <iostream>
 #include <time.h>
+#include <math.h>
 
 using namespace std;
 
@@ -14,10 +15,6 @@ Game::Game() {
 		this->keys[ i ] = 0 ;
 	}
 	playground = new Playground();
-	Uint32 bg_colour = 0x00000001;
-	playground->initialize(bg_colour, 276,275);
-	playground->initialize(bg_colour, 276,275);
-	playground->initialize(bg_colour, 276,275);
 	initialize();
 	//skapa objekt av Menu och Scoreboard här också
 }
@@ -33,7 +30,7 @@ void Game::initialize()
 	}
 
 	/* set video surface */
-	this->display = SDL_SetVideoMode(1000, 600, 0, flags );//| SDL_FULLSCREEN);
+	this->display = SDL_SetVideoMode(1000, 600, 0, flags | SDL_FULLSCREEN);
 	if ( display == NULL ) {
 		return ;
 	}
@@ -42,6 +39,13 @@ void Game::initialize()
 	SDL_WM_SetCaption( "Achtung, die Kurve!", NULL );
 
 	this->running = 1 ;
+
+	Uint32 worm_colour = SDL_MapRGB(display->format, 255, 0, 0);
+		//Uint32 worm_colour = 0x00000001;
+		playground->initialize(worm_colour, 276,275);
+		playground->initialize(worm_colour, 276,275);
+		playground->initialize(worm_colour, 276,275);
+
 	run();
 }
 
@@ -62,16 +66,40 @@ void Game::draw_rectangle( SDL_Surface* surface, SDL_Rect* rc, int r, int g, int
 	SDL_FillRect( surface, rc, SDL_MapRGB(surface->format, r, g, b) );
 }
 
+void fill_circle(SDL_Surface *surface, double cx, double cy, double radius, Uint32 pixel)
+{
+    static const int BPP = 4;
+    double r = (double)radius;
+    for (double dy = 1; dy <= r; dy += 1.0)
+    {
+        double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
+        int x = cx - dx;
+
+        // Grab a pointer to the left-most pixel for each half of the circle
+        Uint8 *target_pixel_a = (Uint8 *)surface->pixels + ((int)(cy + r - dy)) * surface->pitch + x * BPP;
+        Uint8 *target_pixel_b = (Uint8 *)surface->pixels + ((int)(cy - r + dy)) * surface->pitch + x * BPP;
+
+        for (; x <= cx + dx; x++)
+        {
+            *(Uint32 *)target_pixel_a = pixel;
+            *(Uint32 *)target_pixel_b = pixel;
+            target_pixel_a += BPP;
+            target_pixel_b += BPP;
+        }
+    }
+}
+
+
+
 void Game::draw_playground() {
 	int survivor_vector_size = playground->survivor_vector.size();
 	for(int worm_index = 0; worm_index < survivor_vector_size; worm_index++)
 	{
 		/* Create visible worm */
-		worm_rect.x = playground->survivor_vector[worm_index].get_position()->x_koord;
-		worm_rect.y = playground->survivor_vector[worm_index].get_position()->y_koord;
-		worm_rect.w = 2 ;
-		worm_rect.h = 2 ;
-		draw_rectangle( display, &worm_rect, 100, 100, 100 );
+		double worm_xpos = playground->survivor_vector[worm_index].get_position()->x_koord;
+		double worm_ypos = playground->survivor_vector[worm_index].get_position()->y_koord;
+		Uint32 worm_colour = playground->survivor_vector[worm_index].get_colour();
+		fill_circle( display, worm_xpos, worm_ypos, 10, worm_colour);
 	}
 	SDL_Flip( display );
 }
@@ -121,10 +149,13 @@ void Game::run() {
 	while ( running )
 	{
 		int timeElapsed = 0 ;
-
 		listen_to_keys();
 		++fps;
 		int survivor_vector_size = playground->survivor_vector.size();
+		if(keys[SDLK_ESCAPE])
+		{
+			quit();
+		}
 		for(int i = 0; i < survivor_vector_size; i++)
 		{
 			if(keys[playground->survivor_vector[i].get_left_control()] == 1)
