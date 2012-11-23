@@ -34,6 +34,18 @@ Menu::Menu(bool start_menu_param, bool team_play_param)
 
 void Menu::execute_start_menu()
 {
+	switch(position)
+	{
+	case 1:
+		Game.team_play = false;
+		break;
+	case 2:
+		Game.team_play = true;
+		break;
+	case 3:
+		Game.quit();
+		break;
+	}
 }
 
 Uint32 Menu::execute_select_worm_menu()
