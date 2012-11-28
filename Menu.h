@@ -28,7 +28,7 @@ private:
 public:
 	Menu(bool start_menu_param, bool team_play_param);
 
-	void execute_start_menu();
+	int execute_start_menu();
 
 	Uint32 execute_select_worm_menu();
 

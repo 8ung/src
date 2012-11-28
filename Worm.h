@@ -3,6 +3,7 @@
 
 #include "Position_class.h"
 #include "SDL_stdinc.h"
+#include <iostream>
 
 class Worm {
 
@@ -22,7 +23,7 @@ private:
 	int score = 0;
 public:
 	double speed = default_speed;
-	bool team;
+	std::string team;
 	double thickness = default_thickness;
 	int powerup_timer = default_powerup_timer;
 	bool powerup_through_wall = false;

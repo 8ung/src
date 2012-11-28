@@ -1,16 +1,17 @@
 #include "Scoreboard.h"
 #include <vector>
-#include "Game.h"
+#include "Playground.h"
 #include "Position_class.h"
 #include "Worm.h"
 
 using namespace std;
 
-Scoreboard::Scoreboard(vector<Worm> &worm_vector)
+Scoreboard::Scoreboard(vector<Worm> &worm_vector, bool teamplay)
 {
 	players = worm_vector.size();
 	position_first_row = new Position_class(800, 300);
-	if (Game.team_play)
+	team_play = teamplay;
+	if (team_play)
 	{
 		min_points = 10;
 		spacing = 300;
@@ -30,7 +31,7 @@ int Scoreboard::game_finished(vector<Worm> &Worm_vector)
 	int score_compare = 0;
 	for(int i = 0; i < players; i++)
 	{
-		score_compare = Worm_vector[i].score;
+		score_compare = Worm_vector[i].get_score();
 		if(score_compare > second)
 		{
 			second = score_compare;
@@ -56,13 +57,13 @@ string Scoreboard::game_finished_team_play(vector<Worm> &Worm_vector)
 	int counter = 0;
 	while(teamhot == -1 || teamcold == -1)
 	{
-		if(Worm_vector[i].team == "hot")
+		if(Worm_vector[counter].team == "hot")
 		{
-			teamhot = Worm_vector[i].score;
+			teamhot = Worm_vector[counter].get_score();
 		}
-		else if(Worm_vector[i].team == "cold")
+		else if(Worm_vector[counter].team == "cold")
 		{
-			teamcold = Worm_vector[i].score;
+			teamcold = Worm_vector[counter].get_score();
 		}
 	}
 	if(teamhot >= 10 && teamhot > teamcold + 2)
@@ -82,9 +83,10 @@ string Scoreboard::game_finished_team_play(vector<Worm> &Worm_vector)
 
 void Scoreboard::update(vector<Worm> &survivor_vector)
 {
-	for(int i = 0; i < survivor_vector.size(); i++)
+	int size = survivor_vector.size();
+	for(int i = 0; i < size; i++)
 		{
-			survivor_vector[i].score += 1;
+			survivor_vector[i].add_score();
 		}
 }
 
@@ -98,7 +100,7 @@ void Scoreboard::update_team_play(vector<Worm> &survivor_vector, vector<Worm> &W
 		{
 			if(Worm_vector[i].team == team)
 			{
-				Worm_vector[i].score += 1;
+				Worm_vector[i].add_score();
 			}
 		}
 	}

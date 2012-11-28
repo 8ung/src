@@ -8,7 +8,7 @@
 class Game {
 
 private:
-	bool teamplay;
+	bool team_play;
 	Uint32 input_colour;
 	int input_left_controler;
 	int input_right_controler;
