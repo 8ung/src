@@ -26,7 +26,7 @@ private:
 	};
 
 public:
-	Menu(bool start_menu_param, bool team_play_param);
+	Menu(bool, bool);
 
 	int execute_start_menu();
 
