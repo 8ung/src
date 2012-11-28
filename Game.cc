@@ -15,7 +15,7 @@ Game::Game()
 	for ( int i=0; i<SDLK_LAST; ++i ) {
 		this->keys[ i ] = 0 ;
 	}
-	playground = new Playground();
+	//scoreboard = new Scoreboard();
 	initialize();
 	//skapa objekt av Menu och Scoreboard här också
 }
@@ -31,17 +31,19 @@ void Game::initialize()
 	}
 
 	/* set video surface */
-	this->display = SDL_SetVideoMode(1000, 700, 0, flags | SDL_FULLSCREEN);
+	this->display = SDL_SetVideoMode(0, 0, 0, flags | SDL_FULLSCREEN);
 	if ( display == NULL )
 	{
 		return ;
 	}
+	window_height = this->display->h;
 
 	/* Set caption */
 	SDL_WM_SetCaption( "Achtung, die Kurve!", NULL );
 
 	this->running = 1 ;
 
+	playground = new Playground(window_height);
 	Uint32 worm_colour = SDL_MapRGB(display->format, 255, 0, 0);
 	//Uint32 worm_colour = 0x00000001;
 	playground->initialize(worm_colour, 276,275);
@@ -96,8 +98,8 @@ void Game::draw_blank()
 	SDL_Rect blank;
 	blank.x = playground->upper_left_corner->x_koord + 10;
 	blank.y = playground->upper_left_corner->y_koord + 10;
-	blank.w = 680;
-	blank.h = 580;
+	blank.w = window_height - 20;
+	blank.h = window_height - 20;
 	draw_rectangle(display, &blank, 0,0,0);
 }
 
@@ -106,8 +108,8 @@ void Game::draw_boundaries()
 	SDL_Rect boundary;
 	boundary.x = playground->upper_left_corner->x_koord;
 	boundary.y = playground->upper_left_corner->y_koord;
-	boundary.w = 700;
-	boundary.h = 600;
+	boundary.w = window_height;
+	boundary.h = window_height;
 	draw_rectangle(display, &boundary, 255,255,255);
 	draw_blank();
 }
@@ -232,4 +234,9 @@ void Game::run() {
 		/* sleep? */
 		SDL_Delay( 1 );
 	}
+}
+
+int Game::get_window_height()
+{
+	return window_height;
 }

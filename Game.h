@@ -15,6 +15,7 @@ private:
 	int keys[ SDLK_LAST ];
 	int frameSkip;
 	int running;
+	int window_height;
 	SDL_Surface* display;
 	Playground* playground;
 	SDL_Event event;
@@ -52,6 +53,8 @@ private:
 
 public:
 	void run();
+
+	int get_window_height();
 };
 
 #endif /* GAME_H */

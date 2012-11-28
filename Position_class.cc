@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 using namespace std;
 
 Position_class::Position_class(int x, int y)

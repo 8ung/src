@@ -18,7 +18,7 @@ public:
 	std::vector<Worm*> worm_vector;
 	std::vector<Worm*> survivor_vector;
 
-	Playground();
+	Playground(int);
 	//~Playground();
 
 private:

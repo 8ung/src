@@ -2,9 +2,9 @@
 #include <time.h>
 #include <math.h>
 
-Playground::Playground() {
-	upper_left_corner = new Position_class(10, 10);
-	bottom_right_corner = new Position_class(540,540);
+Playground::Playground(int window_height) {
+	upper_left_corner = new Position_class(0, 0);
+	bottom_right_corner = new Position_class(window_height,window_height);
 }
 
 Uint32 Playground::get_pixel(SDL_Surface* display, double x, double y)
@@ -81,7 +81,6 @@ void Playground::collision(SDL_Surface* display)
 				{
 					survivor_vector[index]->add_score();
 				}
-
 			}
 		}
 	}
