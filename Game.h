@@ -30,6 +30,10 @@ private:
 
 	void draw_rectangle(SDL_Surface*, SDL_Rect*, int, int, int);
 
+	void draw_blank();
+
+	void draw_boundaries();
+
 	void draw_playground();
 
 	void draw_menu();

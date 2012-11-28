@@ -8,7 +8,7 @@ class Worm {
 
 private:
 	enum{
-		default_thickness = 8,
+		default_thickness = 5,
 		default_powerup_timer = 0
 	};
 
@@ -18,13 +18,13 @@ private:
 	int left_control;
 	int right_control;
 	Position_class* position;
-	//int direction;
-public:
 	double direction;
+	int score = 0;
+public:
 	double speed = default_speed;
+	bool team;
 	double thickness = default_thickness;
 	int powerup_timer = default_powerup_timer;
-	int score = 0;
 	bool powerup_through_wall = false;
 	bool powerup_ghost = false;
 	bool powerup_sharp_turn = false;
@@ -38,6 +38,8 @@ private:
 public:
 	void change_direction(double degrees);
 
+	int get_direction();
+
 	void kill_worm();
 
 	Position_class* get_position();
@@ -46,7 +48,13 @@ public:
 
 	int get_left_control();
 
+	void add_score();
+
+	int get_score();
+
 	int get_right_control();
+
+	int get_distance_to_hole();
 
 	void move();
 
