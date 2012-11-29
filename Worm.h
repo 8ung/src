@@ -37,6 +37,8 @@ private:
 	int random_distance_to_hole();
 
 public:
+	void set_powerup_timer();
+
 	void change_direction(double);
 
 	int get_direction();
