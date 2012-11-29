@@ -203,7 +203,7 @@ void Game::run() {
 	srand(time(NULL));
 	draw_boundaries();
 
-	draw_scoreboard();
+	//draw_scoreboard();
 	while ( running )
 	{
 		int timeElapsed = 0 ;
@@ -247,7 +247,7 @@ void Game::run() {
 			if ( framesSkipped++ >= frameSkip )
 			{
 				draw_playground();
-				//draw_scoreboard();
+				draw_scoreboard();
 				++fps ;
 				framesSkipped = 0 ;
 			}
