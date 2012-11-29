@@ -1,5 +1,5 @@
 #include "Menu.h"
-#include "SDL.h"
+#include "SDL_stdinc.h"
 #include <iostream>
 #include "Position_class.h"
 #include <string>
@@ -77,13 +77,11 @@ Uint32 Menu::execute_select_worm_menu()
 	return 0;
 }
 
-
-
 void Menu::move_up()
 {
 	if(start_menu)
 	{
-		if(1 < position || position < 4)
+		if(1 < position && position < 4)
 		{
 			position = position - 1;
 			marker_position.y_koord = marker_position.y_koord - spacing;
@@ -96,7 +94,7 @@ void Menu::move_up()
 	}
 	else
 	{
-		if(1 < position || position < 7)
+		if(1 < position && position < 7)
 		{
 			position = position - 1;
 			marker_position.y_koord = marker_position.y_koord - spacing;
@@ -113,7 +111,7 @@ void Menu::move_down()
 {
 	if(start_menu)
 	{
-		if(0 < position || position < 3)
+		if(0 < position && position < 3)
 		{
 			position = position + 1;
 			marker_position.y_koord = marker_position.y_koord + spacing;
@@ -126,7 +124,7 @@ void Menu::move_down()
 	}
 	else
 	{
-		if(0 < position || position < 6)
+		if(0 < position && position < 6)
 		{
 			position = position + 1;
 			marker_position.y_koord = marker_position.y_koord + spacing;

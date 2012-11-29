@@ -23,8 +23,16 @@ Scoreboard::Scoreboard(vector<Worm> &worm_vector, bool teamplay)
 	}
 }
 
-int Scoreboard::game_finished(vector<Worm> &Worm_vector)
+bool Scoreboard::game_finished(vector<Worm> &Worm_vector)
 {
+	bool finished = false;
+	if(Worm_vector[0].get_score() >= min_points && Worm_vector[0].get_score() > Worm_vector[1].get_score() + 2)
+	{
+		 finished = true;
+	}
+	return finished;
+}
+/*{
 	int first_index;
 	int first = 0;
 	int second = 0;
@@ -48,7 +56,7 @@ int Scoreboard::game_finished(vector<Worm> &Worm_vector)
 		return first_index;
 	}
 	else return 7; //7 = false
-}
+}*/
 
 string Scoreboard::game_finished_team_play(vector<Worm> &Worm_vector)
 {
@@ -81,16 +89,7 @@ string Scoreboard::game_finished_team_play(vector<Worm> &Worm_vector)
 
 }
 
-void Scoreboard::update(vector<Worm> &survivor_vector)
-{
-	int size = survivor_vector.size();
-	for(int i = 0; i < size; i++)
-		{
-			survivor_vector[i].add_score();
-		}
-}
-
-void Scoreboard::update_team_play(vector<Worm> &survivor_vector, vector<Worm> &Worm_vector)
+/*void Scoreboard::update_team_play(vector<Worm> &survivor_vector, vector<Worm> &Worm_vector)
 {
 	string team = "";
 	if(!survivor_vector.empty())
@@ -104,4 +103,4 @@ void Scoreboard::update_team_play(vector<Worm> &survivor_vector, vector<Worm> &W
 			}
 		}
 	}
-}
+}*/

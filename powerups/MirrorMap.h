@@ -1,3 +1,6 @@
+#ifndef MIRRORMAP_H
+#define MIRRORMAP_H
+
 class MirrorMap : Powerup {
 
 public:
@@ -5,3 +8,5 @@ public:
 
 	void execute();
 };
+
+#endif

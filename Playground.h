@@ -4,6 +4,7 @@
 #include <vector>
 #include "Worm.h"
 #include "SDL.h"
+#include "powerups\Powerup.h"
 
 
 class Playground {
@@ -14,7 +15,7 @@ private:
 public:
 	Position_class* upper_left_corner;
 	Position_class* bottom_right_corner;
-	std::vector<int> powerup_vector;
+	std::vector<Powerup*> powerup_vector;
 	std::vector<Worm*> worm_vector;
 	std::vector<Worm*> survivor_vector;
 

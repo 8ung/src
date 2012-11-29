@@ -18,13 +18,9 @@ private:
 public:
 	Scoreboard(std::vector<Worm>&, bool);
 
-	void update(std::vector<Worm>&);
-
-	void update_team_play(std::vector<Worm>&, std::vector<Worm>&);
-
 	std::string game_finished_team_play(std::vector<Worm>&);
 
-	int game_finished(std::vector<Worm>&);
+	bool game_finished(std::vector<Worm>&);
 };
 
 

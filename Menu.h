@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "SDL.h"
+#include "SDL_stdinc.h"
 #include "Position_class.h"
 
 class Menu
@@ -12,8 +12,8 @@ private:
 	Position_class first_position;
 	bool team_play;
 	bool start_menu;
-	int spacing = 100;
-	int position = 1;
+	int spacing;
+	int position;
 	//SDL_Surface* background_image = 0;
 	enum
 	{

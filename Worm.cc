@@ -90,6 +90,11 @@ void Worm::move()
 	position->x_koord = position->x_koord + speed*cos(direction*3.141592/180);
 	position->y_koord = position->y_koord + speed*sin(direction*3.141592/180);
 	distance_to_hole--;
+	powerup_timer--;
+	if(powerup_timer == 0)
+	{
+		reset_worm();
+	}
 }
 
 void Worm::reset_worm()
@@ -101,4 +106,9 @@ void Worm::reset_worm()
 	powerup_ghost = false;
 	powerup_sharp_turn = false;
 	powerup_mirror = false;
+}
+
+void Worm::set_powerup_timer()
+{
+	powerup_timer = 5000;
 }

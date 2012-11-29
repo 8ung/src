@@ -1,3 +1,6 @@
+#ifndef CLEAN_H
+#define CLEAN_H
+
 class Clean : Powerup {
 
 public:
@@ -5,3 +8,5 @@ public:
 
 	void execute();
 };
+
+#endif

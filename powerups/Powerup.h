@@ -1,14 +1,25 @@
-class Powerup {
+#ifndef POWERUP_H
+#define POWERUP_H
+
+#include "C:\Users\Dennis\C++\Achtung\src\src\Position_class.h"
+#include "SDL_stdinc.h"
+#include <vector>
+#include "C:\Users\Dennis\C++\Achtung\src\src\Worm.h"
+
+class Powerup
+{
 
 private:
 	Position_class position;
-	int size;
-	uint32 colour_id;
-	bool affect_me;
-	bool affect_map;
 
 public:
-	Powerup(Position_class position);
+	Powerup(Position_class, Uint32);
+	virtual ~Powerup() = default;
 
-	void execute();
+	Uint32 colour_id;
+	int radius;
+
+	virtual void execute(int, std::vector<Worm>&) = 0;
 };
+
+#endif
