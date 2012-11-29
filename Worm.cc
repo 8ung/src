@@ -2,13 +2,13 @@
 #include <math.h>
 #include <time.h>
 
-Worm::Worm(Uint32 new_colour, int new_left_control, int new_right_control) {
+Worm::Worm(Uint32 new_colour, int new_left_control, int new_right_control, int window_height) {
 	distance_to_hole = random_distance_to_hole();
 	colour = new_colour;
 	left_control = new_left_control;
 	right_control = new_right_control;
 	position = new Position_class();
-	position->random_position();
+	position->random_position(window_height);
 	//srand(time(NULL));
 	direction = rand() % 360;
 }
@@ -24,9 +24,9 @@ int Worm::get_distance_to_hole()
 	return distance_to_hole;
 }
 
-void Worm::random_position()
+void Worm::random_position(int window_height)
 {
-	position->random_position();
+	position->random_position(window_height);
 }
 
 void Worm::change_direction(double degrees)

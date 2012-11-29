@@ -29,6 +29,8 @@ private:
 
 	bool round_finished();
 
+	void sort_vectors();
+
 public:
 
 	void start_new_round();

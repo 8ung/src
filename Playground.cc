@@ -1,6 +1,7 @@
 #include "Playground.h"
 #include <time.h>
 #include <math.h>
+#include <vector>
 
 Playground::Playground(int window_height) {
 	upper_left_corner = new Position_class(0, 0);
@@ -43,7 +44,7 @@ void Playground::start_new_round()
 	int worm_vector_size  = worm_vector.size();
 	for(int i = 0; i < worm_vector_size; i++)
 	{
-		worm_vector[i]->random_position();
+		worm_vector[i]->random_position(bottom_right_corner->x_koord);
 		//srand(time(NULL));
 		int angle = rand() % 360;
 		worm_vector[i]->change_direction(angle);
@@ -54,6 +55,25 @@ void Playground::start_new_round()
 
 void Playground::random_power_up_values() {
 	throw "Not yet implemented";
+}
+
+void Playground::sort_vectors()
+{
+	int worm_vector_size = worm_vector.size();
+	std::vector<Worm*> temp_worm_vector;
+	for(int reps = worm_vector_size; reps < 0; reps--)
+	{
+		Worm* temp_worm = NULL;
+		for(int worm_index = 0; worm_index < worm_vector_size; worm_index += 2)
+		{
+			if(worm_vector[worm_index]->get_score() < worm_vector[worm_index + 1]->get_score())
+			{
+				temp_worm = worm_vector[worm_index + 1];
+			}
+		}
+		temp_worm_vector.push_back(temp_worm);
+	}
+	worm_vector = temp_worm_vector;
 }
 
 void Playground::collision(SDL_Surface* display)
@@ -81,6 +101,7 @@ void Playground::collision(SDL_Surface* display)
 				{
 					survivor_vector[index]->add_score();
 				}
+				//sort_vectors();
 			}
 		}
 	}
@@ -98,6 +119,7 @@ void Playground::update(int worm_index, bool left_bool, bool right_bool)
 {
 	//survivor_vector[worm_index]->powerup_sharp_turn = true;
 	double degrees = 0;
+	int mirror_degrees = 0;
 	if(survivor_vector[worm_index]->powerup_sharp_turn == true)
 	{
 		if(SDL_GetTicks() % 90 == 1)
@@ -109,14 +131,22 @@ void Playground::update(int worm_index, bool left_bool, bool right_bool)
 	{
 		degrees = turn_ratio;
 	}
+	if(survivor_vector[worm_index]->powerup_mirror == true)
+	{
+		mirror_degrees = -1;
+	}
+	else
+	{
+		mirror_degrees = 1;
+	}
 	if(left_bool)
 	{
-		survivor_vector[worm_index]->change_direction(degrees);
+		survivor_vector[worm_index]->change_direction(mirror_degrees * degrees);
 		survivor_vector[worm_index]->move();
 	}
 	else if(right_bool)
 	{
-		survivor_vector[worm_index]->change_direction(-degrees);
+		survivor_vector[worm_index]->change_direction(- mirror_degrees * degrees);
 		survivor_vector[worm_index]->move();
 	}
 	else
@@ -129,7 +159,7 @@ void Playground::initialize(Uint32 colour,
 		unsigned int left_control,
 		unsigned int right_control)
 {
-	Worm* temp_worm = new Worm(colour, left_control, right_control);
+	Worm* temp_worm = new Worm(colour, left_control, right_control, bottom_right_corner->x_koord);
 	worm_vector.push_back(temp_worm);
 	survivor_vector.push_back(temp_worm);
 }

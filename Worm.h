@@ -31,13 +31,13 @@ public:
 	bool powerup_sharp_turn = false;
 	bool powerup_mirror = false;
 
-	Worm(Uint32 colour, int left_control, int right_control);
+	Worm(Uint32 colour, int left_control, int right_control, int window_height);
 
 private:
 	int random_distance_to_hole();
 
 public:
-	void change_direction(double degrees);
+	void change_direction(double);
 
 	int get_direction();
 
@@ -61,7 +61,7 @@ public:
 
 	void reset_worm();
 
-	void random_position();
+	void random_position(int);
 };
 
 #endif /* WORM_H */

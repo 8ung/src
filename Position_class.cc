@@ -5,16 +5,16 @@
 
 using namespace std;
 
-Position_class::Position_class(int x, int y)
+Position_class::Position_class(const int x, const int y)
 {
 	x_koord = x;
 	y_koord = y;
 }
 
-void Position_class::random_position()
+void Position_class::random_position(int window_height)
 {
 	//srand(time(NULL));
-	x_koord = rand() % (x_max - x_min) + x_min;
+	x_koord = rand() % (window_height - 2 * boundary_diff) + boundary_diff;
 	//srand(time(NULL));
-	y_koord = rand() % (y_max - y_min) + y_min;
+	y_koord = rand() % (window_height - 2 * boundary_diff) + boundary_diff;
 }

@@ -6,10 +6,8 @@ class Position_class
 private:
 	enum
 	{
-		x_max = 500,
-		x_min = 50,
-		y_max = 500,
-		y_min = 50
+		// So that the random-function do not generate values near the edge
+		boundary_diff = 50
 	};
 
 public:
@@ -19,7 +17,7 @@ public:
 	Position_class(int x = 0, int y = 0);
 	//~Position_class();
 
-	void random_position();
+	void random_position(int window_height);
 };
 
 #endif /* POSITION_CLASS_H */

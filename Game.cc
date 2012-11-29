@@ -23,10 +23,10 @@ Game::Game()
 void Game::initialize()
 {
 
-	int flags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_ANYFORMAT ;
+	int flags = SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_ANYFORMAT;//SDL_INIT_EVERYTHING;//  ;
 
 	/* initialize SDL */
-	if ( SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) ) {
+	if ( SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_EVERYTHING) ) {
 		return ;
 	}
 
@@ -45,10 +45,15 @@ void Game::initialize()
 
 	playground = new Playground(window_height);
 	Uint32 worm_colour = SDL_MapRGB(display->format, 255, 0, 0);
+	Uint32 worm_colour2 = SDL_MapRGB(display->format, 0, 255, 0);
+	Uint32 worm_colour3 = SDL_MapRGB(display->format, 0, 0, 255);
 	//Uint32 worm_colour = 0x00000001;
 	playground->initialize(worm_colour, 276,275);
-	playground->initialize(worm_colour, 49,50);
+	playground->initialize(worm_colour2, 49,50);
+	playground->initialize(worm_colour3, 49,50);
 	//playground->initialize(worm_colour, 276,275);
+
+	hello = SDL_LoadBMP( "C:/Users/Oscar/Workspace/Projektet/src/achtung_header.bmp" );
 
 	run();
 }
@@ -140,7 +145,27 @@ void Game::draw_menu() {
 }
 
 void Game::draw_scoreboard() {
-	throw "Not yet implemented";
+	//Apply image to screen
+	SDL_Rect rect;
+	rect.x = window_height + 30;
+	rect.y = 0;
+	rect.w = 30;
+	rect.h = 30;
+
+	//SDL_BlitSurface( hello, NULL, display, &rect );
+	//Free the loaded image
+	//SDL_FreeSurface( hello );
+	int vector_size = playground->worm_vector.size();
+	for(int worm_index = 0; worm_index < vector_size ; worm_index++)
+	{
+		rect.y = 200 + worm_index * 50;
+		SDL_FillRect(display, &rect, playground->worm_vector[worm_index]->get_colour());
+		//SDL_BlitSurface( hello, NULL, display, &rect );
+
+			//Update Screen
+		SDL_Flip( display );
+
+	}
 }
 
 bool Game::game_finished() {
@@ -160,6 +185,7 @@ void Game::key_unpressed( SDL_Event* event )
 
 void Game::quit()
 {
+	SDL_FreeSurface( hello );
 	running = 0;
 }
 
@@ -176,6 +202,8 @@ void Game::run() {
 	int fps = 0, framesSkipped = 0 ;
 	srand(time(NULL));
 	draw_boundaries();
+
+	draw_scoreboard();
 	while ( running )
 	{
 		int timeElapsed = 0 ;
@@ -219,6 +247,7 @@ void Game::run() {
 			if ( framesSkipped++ >= frameSkip )
 			{
 				draw_playground();
+				//draw_scoreboard();
 				++fps ;
 				framesSkipped = 0 ;
 			}
@@ -234,9 +263,4 @@ void Game::run() {
 		/* sleep? */
 		SDL_Delay( 1 );
 	}
-}
-
-int Game::get_window_height()
-{
-	return window_height;
 }

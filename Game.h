@@ -19,6 +19,7 @@ private:
 	SDL_Surface* display;
 	Playground* playground;
 	SDL_Event event;
+	SDL_Surface* hello = nullptr;
 
 
 public:
