@@ -6,6 +6,7 @@
 
 Menu::Menu(bool start_menu_param, bool team_play_param)
 {
+
 	team_play = team_play_param;
 	start_menu = start_menu_param;
 	position = 1;
