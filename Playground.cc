@@ -61,19 +61,17 @@ void Playground::sort_vectors()
 {
 	int worm_vector_size = worm_vector.size();
 	std::vector<Worm*> temp_worm_vector;
-	for(int reps = worm_vector_size; reps < 0; reps--)
+	Worm* temp_worm = NULL;
+	for(int worm_index = 0; worm_index < worm_vector_size -1; worm_index ++)
 	{
-		Worm* temp_worm = NULL;
-		for(int worm_index = 0; worm_index < worm_vector_size; worm_index += 2)
+		int next_worm_index = worm_index + 1;
+		if(worm_vector[worm_index]->get_score() < worm_vector[next_worm_index]->get_score())
 		{
-			if(worm_vector[worm_index]->get_score() < worm_vector[worm_index + 1]->get_score())
-			{
-				temp_worm = worm_vector[worm_index + 1];
-			}
+			temp_worm = worm_vector[worm_index];
+			worm_vector[worm_index] = worm_vector[next_worm_index];
+			worm_vector[next_worm_index] = temp_worm;
 		}
-		temp_worm_vector.push_back(temp_worm);
 	}
-	worm_vector = temp_worm_vector;
 }
 
 void Playground::collision(SDL_Surface* display)
@@ -101,7 +99,7 @@ void Playground::collision(SDL_Surface* display)
 				{
 					survivor_vector[index]->add_score();
 				}
-				//sort_vectors();
+				sort_vectors();
 			}
 		}
 	}
